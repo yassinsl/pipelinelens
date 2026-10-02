@@ -1,0 +1,19 @@
+{
+  "status": "needs_more_context",
+  "summary": "The build step failed with a generic non-zero exit code, but the logs do not include the underlying error, so the root cause cannot be determined.",
+  "likely_cause": null,
+  "evidence": [
+    {
+      "source": "logs",
+      "line_number": 2,
+      "quoted_text": "2024-06-02T09:15:30.5000000Z make: *** [build] Error 1"
+    }
+  ],
+  "suggested_changes": [],
+  "verification_steps": [],
+  "missing_information": [
+    "The full output of the 'make build' step, including the specific compiler, linker, or script error that preceded 'Error 1'.",
+    "The contents of the Makefile 'build' target so the failing command can be identified.",
+    "Any earlier log lines that may have been truncated before the failure."
+  ]
+}
