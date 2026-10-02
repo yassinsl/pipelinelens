@@ -4,14 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pipelinelens"
-version = "0.1.0"
-description = "AI-assisted GitHub Actions troubleshooting - backend foundation (Phase 1)."
+version = "0.2.0"
+description = "AI-assisted GitHub Actions troubleshooting."
 requires-python = ">=3.11"
 license = { text = "MIT" }
 dependencies = [
     "fastapi>=0.115,<1.0",
     "uvicorn>=0.30,<1.0",
     "pydantic>=2.7,<3.0",
+    "openai>=2.0,<3.0",
+    "python-dotenv>=1.0,<2.0",
 ]
 
 [project.optional-dependencies]

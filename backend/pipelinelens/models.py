@@ -1,14 +1,12 @@
 """Pydantic models for the PipelineLens API.
 
-These models define the request/response contract for the *future* analysis
-endpoint (Phase 2). They are defined now, in Phase 1, so the contract can be
-reviewed and tested before any LLM integration exists.
+These models define the request/response contract for POST /analyze.
 
 Design notes / guardrails:
 - There is intentionally **no** confidence score / percentage field. The system
   must not invent confidence numbers.
 - There is intentionally **no** "verified" flag on suggested changes. A fix is a
-  *suggestion*; Phase 1 does not (and must not) execute anything to verify it.
+  *suggestion*; the service does not execute anything to verify it.
 - ``likely_cause`` is optional so the analyzer can honestly answer "unknown"
   (status ``needs_more_context``) when the evidence is insufficient.
 """
@@ -67,7 +65,7 @@ class SuggestedChange(BaseModel):
 
 
 class AnalysisRequest(BaseModel):
-    """Request body for the future analysis endpoint."""
+    """Request body for POST /analyze."""
 
     model_config = ConfigDict(extra="forbid")
 

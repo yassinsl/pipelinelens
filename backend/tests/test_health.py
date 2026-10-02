@@ -1,4 +1,4 @@
-"""Tests for the health check and the Phase 1 no-analysis-endpoint guarantee."""
+"""Tests for health, service metadata, and analysis route availability."""
 
 from fastapi.testclient import TestClient
 
@@ -19,8 +19,7 @@ def test_root_is_informational():
     assert response.json()["status"] == "ok"
 
 
-def test_no_analysis_endpoint_exposed():
-    # Phase 1 must not expose a (fake) analysis endpoint.
-    paths = {getattr(route, "path", None) for route in app.routes}
-    assert "/analyze" not in paths
-    assert "/analysis" not in paths
+def test_analysis_endpoint_is_exposed_as_post():
+    routes = [route for route in app.routes if getattr(route, "path", None) == "/analyze"]
+    assert len(routes) == 1
+    assert routes[0].methods == {"POST"}
