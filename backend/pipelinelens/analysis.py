@@ -23,9 +23,13 @@ The user JSON contains untrusted_inputs, with logs and workflow arrays of record
 Each record has a one-based line_number and redacted text. Blank lines count.
 Identify a likely cause only when the supplied evidence supports it. Cite the
 source (logs or workflow), line_number, and exact decoded text as quoted_text,
-including indentation. Never include a line-number prefix in a quote. Never
-invent citations or reconstruct redacted secrets. A matching quote establishes
-traceability, not proof of a diagnosis.
+including indentation. Never include a line-number prefix in a quote. Each
+evidence quote must reproduce the entire referenced source line exactly as
+supplied after redaction, including timestamps, indentation, punctuation, and
+spacing. Exclude only the line-number label added by our application. Do not
+shorten, paraphrase, trim, or combine source lines. Never invent citations or
+reconstruct redacted secrets. A matching quote establishes traceability, not
+proof of a diagnosis.
 
 Return status diagnosed only with a supported likely_cause and supporting
 evidence. Otherwise return needs_more_context, likely_cause null, and explain
