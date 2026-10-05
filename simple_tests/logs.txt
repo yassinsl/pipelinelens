@@ -1,0 +1,4 @@
+2026-10-05T09:00:00Z Python 3.9.18
+2026-10-05T09:00:01Z Running: pip install .
+2026-10-05T09:00:02Z ERROR: Package 'demo-app' requires Python >=3.11, but Python 3.9.18 is installed.
+2026-10-05T09:00:03Z Process completed with exit code 1.
