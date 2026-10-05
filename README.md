@@ -77,8 +77,13 @@ them; `POST /analyze` returns `503` until both are set. **Never commit real secr
 
 ```bash
 cd backend
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
 uvicorn pipelinelens.main:app --reload
 ```
+
+Use the project's virtual environment. Another `uvicorn` on your PATH (for example
+Homebrew's) can't import FastAPI, so the server exits and the frontend reports that
+it can't reach the backend.
 
 - Health check: http://127.0.0.1:8000/health
 - API docs: http://127.0.0.1:8000/docs
@@ -91,10 +96,11 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. The input screen accepts a failed build log and the
-workflow YAML (paste or upload) and checks them against the backend's rules. It is
-**not connected to `POST /analyze` yet**: the Analyze button is disabled and nothing
-leaves the browser.
+Open http://localhost:5173 with the backend running (see above). Paste or upload a
+failed build log and the workflow YAML, then choose **Analyze** to see the report.
+The Vite dev server forwards `/api/*` to the backend at `http://127.0.0.1:8000`
+(override with `PIPELINELENS_BACKEND_URL`), so the browser never sees provider
+credentials and the backend needs no CORS setup.
 
 ## Request example
 
@@ -181,6 +187,6 @@ untrusted data.
 - **Phase 2 (done):** Real analysis via an existing LLM behind the documented
   contract, with redaction, citation validation, sanitized errors, and an opt-in
   live smoke test. No model training.
-- **Phase 3 (in progress):** React + TypeScript frontend. The input screen is
-  done; connecting it to `POST /analyze` and showing results is next.
+- **Phase 3 (in progress):** React + TypeScript frontend: input screen connected
+  to `POST /analyze`, showing the returned report.
 

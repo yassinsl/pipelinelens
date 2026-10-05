@@ -10,6 +10,8 @@ interface SourceFieldProps {
   state: SourceState
   characters: number
   overLimit: boolean
+  /** True while an analysis runs: the content can't change until it ends. */
+  locked: boolean
   /** Ids of the combined-size text, read along with the field's own hint. */
   combinedDescribedBy: string
   textareaRef?: Ref<HTMLTextAreaElement>
@@ -34,6 +36,7 @@ export function SourceField({
   state,
   characters,
   overLimit,
+  locked,
   combinedDescribedBy,
   textareaRef,
   onEdit,
@@ -70,15 +73,17 @@ export function SourceField({
     else onFileError(fileProblemMessage(result.problem, file, source))
   }
 
+  // While locked, drag events fall through to the page-level guard, which
+  // refuses the drop.
   function handleDragEnter(event: DragEvent) {
-    if (!carriesFiles(event)) return
+    if (locked || !carriesFiles(event)) return
     event.preventDefault()
     dragDepth.current++
     setDragging(true)
   }
 
   function handleDragOver(event: DragEvent) {
-    if (!carriesFiles(event)) return
+    if (locked || !carriesFiles(event)) return
     event.preventDefault()
     event.dataTransfer.dropEffect = 'copy'
   }
@@ -90,7 +95,7 @@ export function SourceField({
   }
 
   function handleDrop(event: DragEvent) {
-    if (!carriesFiles(event)) return
+    if (locked || !carriesFiles(event)) return
     event.preventDefault()
     dragDepth.current = 0
     setDragging(false)
@@ -143,7 +148,12 @@ export function SourceField({
           <span className="swatch" aria-hidden="true" />
           {source.label}
         </label>
-        <button type="button" className="button button--quiet" onClick={() => fileInput.current?.click()}>
+        <button
+          type="button"
+          className="button button--quiet"
+          disabled={locked}
+          onClick={() => fileInput.current?.click()}
+        >
           {hasContent ? 'Replace from file' : 'Upload file'}
           <span className="sr-only"> for {source.label}</span>
         </button>
@@ -171,6 +181,7 @@ export function SourceField({
           className="source-input"
           value={state.value}
           onChange={(event) => onEdit(event.target.value)}
+          readOnly={locked}
           placeholder={source.placeholder}
           rows={14}
           spellCheck={false}

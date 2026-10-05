@@ -275,6 +275,10 @@ ul {
   border-color: var(--source);
 }
 
+.source-input:read-only {
+  background: var(--sunk);
+}
+
 .source-input[aria-invalid='true'] {
   border-color: var(--danger);
 }
@@ -495,6 +499,175 @@ ul {
   font-size: var(--step--1);
 }
 
+.analysis-error {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--danger) 8%, var(--sheet));
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-control);
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+}
+
+.analysis-error .icon {
+  color: var(--danger);
+}
+
+.analysis-error-title {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.analysis-error p + p {
+  margin-top: 4px;
+}
+
+/* Report */
+
+.report {
+  margin-top: 24px;
+  padding: 24px 16px 28px;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-bench);
+  box-shadow: var(--shadow);
+}
+
+/* Focused only so a new report is announced and scrolled to; not interactive. */
+.report:focus {
+  outline: none;
+}
+
+.report-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.report-title {
+  font-size: var(--step-2);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.report-status {
+  padding: 2px 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+.report-status--diagnosed {
+  color: var(--logs);
+}
+
+.report-status--needs_more_context {
+  color: var(--caution);
+}
+
+.report-summary {
+  max-width: 62ch;
+  margin-top: 12px;
+  font-size: var(--step-1);
+  line-height: 1.45;
+}
+
+.report-section {
+  max-width: 76ch;
+  margin-top: 28px;
+}
+
+.report-section h3 {
+  margin: 0 0 8px;
+  font-size: var(--step-0);
+  font-weight: 700;
+}
+
+.report-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.report-caveat {
+  margin-bottom: 10px;
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.change-file {
+  margin-top: 4px;
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.change-file code,
+.change-details {
+  font-family: var(--font-code);
+}
+
+.change-details {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--sunk);
+  border-radius: 6px;
+  font-size: var(--step--1);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidence {
+  --source: var(--logs);
+}
+
+.evidence--workflow {
+  --source: var(--workflow);
+}
+
+.evidence-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+/* Wrapped rather than scrolled, keeping the line's indentation. */
+.evidence-quote {
+  margin: 6px 0 0;
+  padding: 10px 14px;
+  background: var(--field);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--source);
+  border-radius: 6px;
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.report-footnote {
+  max-width: 76ch;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-muted);
+  font-size: var(--step--1);
+}
+
 /* Buttons */
 
 .button {
@@ -516,6 +689,10 @@ ul {
   color: var(--on-accent);
 }
 
+.button--primary:hover:not(:disabled):not([aria-disabled='true']) {
+  background: color-mix(in srgb, var(--logs) 85%, var(--ink));
+}
+
 .button--secondary,
 .button--quiet {
   background: var(--sheet);
@@ -535,11 +712,16 @@ ul {
   border-color: var(--ink-muted);
 }
 
-.button:disabled {
+.button:disabled,
+.button[aria-disabled='true'] {
   background: var(--disabled-bg);
   color: var(--disabled-ink);
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.button[aria-disabled='true'] {
+  cursor: progress;
 }
 
 /* Wider screens: sources side by side, footer in two columns */
@@ -576,6 +758,10 @@ ul {
 
   .bench-foot {
     padding: 22px 28px 24px;
+  }
+
+  .report {
+    padding: 28px 28px 32px;
   }
 }
 
