@@ -39,11 +39,13 @@ backend/
     example_data.py              # loader for the synthetic examples
     examples/                    # synthetic, clearly-labeled sample data
   tests/                         # offline tests; mock the provider boundary
+frontend/                        # React + TypeScript + Vite input screen (see frontend/README.md)
 ```
 
 ## Requirements
 
 - Python 3.11+
+- Node.js 20.19+ or 22.12+ (frontend only)
 
 ## Local setup
 
@@ -80,6 +82,19 @@ uvicorn pipelinelens.main:app --reload
 
 - Health check: http://127.0.0.1:8000/health
 - API docs: http://127.0.0.1:8000/docs
+
+## Run the frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173. The input screen accepts a failed build log and the
+workflow YAML (paste or upload) and checks them against the backend's rules. It is
+**not connected to `POST /analyze` yet**: the Analyze button is disabled and nothing
+leaves the browser.
 
 ## Request example
 
@@ -166,5 +181,6 @@ untrusted data.
 - **Phase 2 (done):** Real analysis via an existing LLM behind the documented
   contract, with redaction, citation validation, sanitized errors, and an opt-in
   live smoke test. No model training.
-- **Phase 3:** React + TypeScript frontend.
+- **Phase 3 (in progress):** React + TypeScript frontend. The input screen is
+  done; connecting it to `POST /analyze` and showing results is next.
 
